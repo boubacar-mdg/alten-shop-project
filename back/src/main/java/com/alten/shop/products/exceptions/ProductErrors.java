@@ -8,6 +8,8 @@ import com.alten.shop.authentication.enums.LoginMode;
 public enum ProductErrors {
 
 	PRODUCT_NOT_FOUND(HttpStatus.BAD_REQUEST, "", "Le produit demandé est introuvable"),
+	OUTOFSTOCK(HttpStatus.BAD_REQUEST, "", "Aucun stock disponible pour ce produit"),
+	UNSUFFICIENT_STOCK(HttpStatus.BAD_REQUEST, "", "Stock insuffisant"),
 	UNAUTHORIZED_PRODUCT_MANAGEMENT(HttpStatus.BAD_REQUEST, "", "Vous n'avez les droits pour gérer les produits");
 
 	public final HttpStatus status;

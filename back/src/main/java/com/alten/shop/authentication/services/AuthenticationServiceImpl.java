@@ -5,6 +5,8 @@ import com.alten.shop.authentication.exceptions.AuthException;
 import com.alten.shop.authentication.models.dtos.AuthenticationResponse;
 import com.alten.shop.authentication.models.dtos.LoginRequest;
 import com.alten.shop.authentication.models.dtos.RegisterRequest;
+import com.alten.shop.cart.models.entities.Cart;
+import com.alten.shop.cart.repositories.CartRepository;
 import com.alten.shop.tokens.models.entities.Token;
 import com.alten.shop.tokens.models.enums.TokenType;
 import com.alten.shop.tokens.repositories.TokenRepository;
@@ -42,6 +44,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
   private final JwtService jwtService;
   private final AuthenticationManager authenticationManager;
   private final ModelMapper modelMapper;
+  private final CartRepository cartRepository;
 
   @Override
   public AuthenticationResponse register(RegisterRequest registerRequest) {
@@ -73,6 +76,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         .build();
 
     User savedUser = repository.save(user);
+
+
+    Cart cart = new Cart();
+    cart.setUser(savedUser);
+    cartRepository.save(cart);
+    
+    
 
     String jwtToken = jwtService.generateToken(user);
 

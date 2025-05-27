@@ -74,7 +74,8 @@ public class ProductServiceImpl implements ProductService{
         return modelMapper.map(getProductById(id), ProductResponse.class);
     }
 
-    private Product getProductById(Long id){
+    @Override
+    public Product getProductById(Long id){
         return productRepository.findById(id).orElseThrow(() -> new ProductException(ProductErrors.PRODUCT_NOT_FOUND));
     }
 
