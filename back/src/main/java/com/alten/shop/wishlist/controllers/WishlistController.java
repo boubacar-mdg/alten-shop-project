@@ -1,4 +1,4 @@
-package com.alten.shop.cart.controllers;
+package com.alten.shop.wishlist.controllers;
 
 import java.util.List;
 
@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alten.shop.cart.models.dtos.CartResponse;
-import com.alten.shop.cart.services.CartService;
 import com.alten.shop.commons.dtos.CommonResponse;
+import com.alten.shop.wishlist.models.dtos.WishlistResponse;
+import com.alten.shop.wishlist.services.WishlistService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -24,38 +24,38 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(path = "/cart")
-@Tag(name = "Panier")
-public class CartController {
+@RequestMapping(path = "/wishlist")
+@Tag(name = "List d'envie")
+public class WishlistController {
 
-        private final CartService cartService;
+        private final WishlistService wishlistService;
 
         @GetMapping(path = "", produces = { MediaType.APPLICATION_JSON_VALUE })
-        @Operation(summary = "Liste les éléments du panier")
+        @Operation(summary = "Liste les éléments de ma liste d'envie")
         @ApiResponses(value = { @ApiResponse(responseCode = "200", useReturnTypeSchema = true) })
-        public ResponseEntity<List<CartResponse>> getProductList() {
+        public ResponseEntity<List<WishlistResponse>> getWishlist() {
 
-                List<CartResponse> cartResponses = cartService.getCartItems();
+                List<WishlistResponse> wishlistResponses = wishlistService.getWishlist();
 
-                return ResponseEntity.ok(cartResponses);
+                return ResponseEntity.ok(wishlistResponses);
         }
 
         @PostMapping(path = "/{productId}/add", produces = { MediaType.APPLICATION_JSON_VALUE })
-        @Operation(summary = "Ajouter le produit au panier")
+        @Operation(summary = "Ajouter un produit à ma liste d'envie")
         @ApiResponses(value = { @ApiResponse(responseCode = "200", useReturnTypeSchema = true) })
-        public ResponseEntity<CommonResponse> addProductToCart(@PathVariable Long productId) {
+        public ResponseEntity<CommonResponse> addProductToWishlist(@PathVariable Long productId) {
 
-                CommonResponse commonResponse = cartService.addCartItem(productId);
+                CommonResponse commonResponse = wishlistService.addToWishlist(productId);
 
                 return ResponseEntity.ok(commonResponse);
         }
-
+        
         @DeleteMapping(path = "/{productId}/delete", produces = { MediaType.APPLICATION_JSON_VALUE })
-        @Operation(summary = "Supprimer le produit du panier")
+        @Operation(summary = "Supprimer le produit de ma liste d'envie")
         @ApiResponses(value = { @ApiResponse(responseCode = "200", useReturnTypeSchema = true) })
         public ResponseEntity<CommonResponse> deleteProduct(@PathVariable Long productId) {
 
-                CommonResponse commonResponse = cartService.deleteCartItem(productId);
+                CommonResponse commonResponse = wishlistService.deleteFromWishlist(productId);
 
                 return ResponseEntity.ok(commonResponse);
         }

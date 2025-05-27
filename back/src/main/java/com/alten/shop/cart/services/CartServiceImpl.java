@@ -1,11 +1,9 @@
 package com.alten.shop.cart.services;
 
-import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.alten.shop.cart.exceptions.CartErrors;
