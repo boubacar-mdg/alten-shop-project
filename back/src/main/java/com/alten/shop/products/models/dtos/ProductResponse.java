@@ -26,4 +26,6 @@ public class ProductResponse {
     private int shellId;
     private InventoryStatus inventoryStatus;
     private int rating;
+    private Long createdAt;
+    private Long updatedAt;
 }

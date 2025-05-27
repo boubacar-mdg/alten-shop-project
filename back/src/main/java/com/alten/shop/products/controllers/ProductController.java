@@ -67,7 +67,7 @@ public class ProductController {
     @GetMapping(path = "/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
     @Operation(summary = "Détails d'un produit")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", content = {
+            @ApiResponse(responseCode = "200", content = {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = ProductResponse.class)),
             }),
     })
@@ -81,7 +81,7 @@ public class ProductController {
     @PatchMapping(path = "/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
     @Operation(summary = "Mettre à jour un produit")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", content = {
+            @ApiResponse(responseCode = "200", content = {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = ProductResponse.class)),
             }),
     })
