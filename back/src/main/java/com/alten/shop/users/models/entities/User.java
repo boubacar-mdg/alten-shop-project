@@ -41,9 +41,9 @@ public class User implements UserDetails {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_USERS")
   @SequenceGenerator(name = "SEQ_USERS", sequenceName = "SEQ_USERS", allocationSize = 20, initialValue = 10)
-  @JsonIgnore
   private Long id;
   private String firstname;
+  @Column(unique = true)
   private String email;
   private String password;
   private LocalDateTime createAt;
