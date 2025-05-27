@@ -1,4 +1,4 @@
-package com.alten.shop.commons.config.filters;
+package com.alten.shop.commons.filters;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
