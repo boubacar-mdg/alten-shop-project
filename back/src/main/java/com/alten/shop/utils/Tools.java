@@ -14,4 +14,18 @@ public class Tools {
         Matcher matcher = emailPattern.matcher(email);
         return matcher.matches();
     }
+
+    public static String generateReference(int n) {
+        String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                + "0123456789";
+        StringBuilder s = new StringBuilder(n);
+        int y;
+        for (y = 0; y < n; y++) {
+            int index = (int) (AlphaNumericString.length()
+                    * Math.random());
+            s.append(AlphaNumericString
+                    .charAt(index));
+        }
+        return s.toString();
+    }
 }
