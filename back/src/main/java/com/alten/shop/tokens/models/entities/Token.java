@@ -19,19 +19,19 @@ public class Token {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_TOKENS")
   @SequenceGenerator(name = "SEQ_TOKENS", sequenceName = "SEQ_TOKENS", allocationSize = 20, initialValue = 10)
-  public Integer id;
+  private Long id;
 
   @Column(unique = true)
-  public String token;
+  private String token;
 
   @Enumerated(EnumType.STRING)
-  public TokenType tokenType = TokenType.BEARER;
+  private TokenType tokenType = TokenType.BEARER;
 
-  public boolean revoked;
+  private boolean revoked;
 
-  public boolean expired;
+  private boolean expired;
 
   @ManyToOne
   @JoinColumn(name = "user_id")
-  public User user;
+  private User user;
 }
