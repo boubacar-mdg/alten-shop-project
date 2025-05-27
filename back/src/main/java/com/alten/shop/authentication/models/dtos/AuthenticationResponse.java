@@ -1,5 +1,6 @@
 package com.alten.shop.authentication.models.dtos;
 
+import com.alten.shop.users.models.dtos.UserResponse;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.AllArgsConstructor;
@@ -13,8 +14,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AuthenticationResponse {
-  private String email;
-  private String username;
-  private String firstname;
   private String token;
+  private UserResponse user;
 }
