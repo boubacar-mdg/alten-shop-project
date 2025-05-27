@@ -47,6 +47,7 @@ public class ProductServiceImpl implements ProductService{
         Product existingProduct = getProductById(id);
         Product product = modelMapper.map(productRequest, Product.class);
         product.setId(existingProduct.getId());
+        product.setInternalReference(existingProduct.getInternalReference());
         product.setCreatedAt(existingProduct.getCreatedAt());
         product.setUpdatedAt(System.currentTimeMillis() / 1000);
         productRepository.save(product);
