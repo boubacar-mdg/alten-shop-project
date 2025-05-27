@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import com.alten.shop.tokens.models.entities.Token;
 
 
-public interface TokenRepository extends JpaRepository<Token, Integer> {
+public interface TokenRepository extends JpaRepository<Token, Long> {
 
   @Query(value = """
       SELECT t FROM Token t INNER JOIN User u\s
