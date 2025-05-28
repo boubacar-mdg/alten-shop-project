@@ -19,10 +19,6 @@ export class CartItemListComponent {
 
   public readonly cartItems = this.cartService.cartItems;
 
-  ngOnInit() {
-    this.cartService.get().subscribe();
-  }
-
   public onDeleteItem(cartItemId: number) {
     this.cartService.removeItem(cartItemId).subscribe();
   }

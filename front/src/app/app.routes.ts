@@ -1,10 +1,15 @@
 import { Routes } from "@angular/router";
 import { HomeComponent } from "./shared/features/home/home.component";
+import { ContactFormComponent } from "./contact/ui/contact-form/contact-form.component";
 
 export const APP_ROUTES: Routes = [
   {
     path: "home",
     component: HomeComponent,
+  },
+  {
+    path: "contact",
+    component: ContactFormComponent,
   },
   {
     path: "products",

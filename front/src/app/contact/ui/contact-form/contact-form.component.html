@@ -1,0 +1,35 @@
+<h1 class="text-center">Contact</h1>
+<form class="contact-form-container" #form="ngForm" (ngSubmit)="onSend()">
+    <div class="form-field">
+      <label for="email">Email</label>
+      <input pInputText
+        type="email"
+        id="email"
+        name="email"
+        [(ngModel)]="email"
+        #emailModel="ngModel"
+        required>
+    </div>
+    <div class="form-field">
+      <label for="message">Message</label>
+      <textarea pInputTextarea 
+        id="message"
+        name="message"
+        rows="5" 
+        cols="30"
+        maxlength="300"
+         #messageModel="ngModel"
+        [(ngModel)]="message" 
+        required>
+      </textarea>
+    </div>
+    @if(messageModel.touched && message.length > 300){
+        <div class="error">
+            Le message ne doit pas contenir plus de 300 caractère
+          </div>
+        }      
+    <div class="flex justify-content-between">
+      <p-button type="submit" [disabled]="!form.valid" label="Envoyer" severity="success"/>
+    </div>
+  </form>
+  <p-toast />
