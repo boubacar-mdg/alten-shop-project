@@ -14,6 +14,8 @@ import com.alten.shop.wishlist.exceptions.WishlistErrors;
 import com.alten.shop.wishlist.exceptions.WishlistException;
 import com.alten.shop.wishlist.models.dtos.WishlistResponse;
 import com.alten.shop.wishlist.models.entities.Wishlist;
+import com.alten.shop.wishlist.models.entities.WishlistItem;
+import com.alten.shop.wishlist.repositories.WishlistItemRepository;
 import com.alten.shop.wishlist.repositories.WishlistRepository;
 
 import jakarta.transaction.Transactional;
@@ -27,16 +29,19 @@ import lombok.extern.slf4j.Slf4j;
 public class WishlistServiceImpl implements WishlistService {
 
     private final WishlistRepository wishlistRepository;
+    private final WishlistItemRepository wishlistItemRepository;
     private final UserService userService;
     private final ProductService productService;
     
     @Override
     public List<WishlistResponse> getWishlist() {
         User user = userService.getAuthenticatedUser();
-        return wishlistRepository.findByUser(user).stream()
-                .map(wishlist -> {
-                    return WishlistResponse.builder().productName(wishlist.getProduct().getName())
-                    .productPrice(wishlist.getProduct().getPrice())
+        Wishlist wishlist = wishlistRepository.findByUser(user).orElseThrow(() -> new WishlistException(WishlistErrors.WISHLIST_NOT_FOUND));
+
+        return wishlistItemRepository.findByWishlist(wishlist).stream()
+                .map(wishlistItem -> {
+                    return WishlistResponse.builder().productName(wishlistItem.getProduct().getName())
+                    .productPrice(wishlistItem.getProduct().getPrice())
                             .build();
                 })
                 .toList();
@@ -46,15 +51,17 @@ public class WishlistServiceImpl implements WishlistService {
     public CommonResponse addToWishlist(Long productId) {
         User user = userService.getAuthenticatedUser();
 
+        Wishlist wishlist = wishlistRepository.findByUser(user).orElseThrow(() -> new WishlistException(WishlistErrors.WISHLIST_NOT_FOUND));
+
         Product product = productService.getProductById(productId);
 
-        Optional<Wishlist> item = wishlistRepository.findByUserAndProduct(user,product);
+        Optional<WishlistItem> wishlistItem = wishlistItemRepository.findByWishlistAndProduct(wishlist,product);
 
-        if(item.isPresent()) throw new WishlistException(WishlistErrors.ALREADY_IN_WISHLIST);
+        if(wishlistItem.isPresent()) throw new WishlistException(WishlistErrors.ALREADY_IN_WISHLIST);
 
-        Wishlist wishlist = Wishlist.builder().product(product).user(user).build();
+        WishlistItem item = WishlistItem.builder().product(product).wishlist(wishlist).build();
 
-        wishlistRepository.save(wishlist);
+        wishlistItemRepository.save(item);
 
         return CommonResponse.builder()
         .success(true)
@@ -66,11 +73,13 @@ public class WishlistServiceImpl implements WishlistService {
     public CommonResponse deleteFromWishlist(Long productId) {
         User user = userService.getAuthenticatedUser();
 
+        Wishlist wishlist = wishlistRepository.findByUser(user).orElseThrow(() -> new WishlistException(WishlistErrors.WISHLIST_NOT_FOUND));
+
         Product product = productService.getProductById(productId);
 
-        Wishlist item = wishlistRepository.findByUserAndProduct(user,product).orElseThrow(() -> new WishlistException(WishlistErrors.NOT_FOUND_IN_WISHLIST));
+        WishlistItem item = wishlistItemRepository.findByWishlistAndProduct(wishlist,product).orElseThrow(() -> new WishlistException(WishlistErrors.NOT_FOUND_IN_WISHLIST));
 
-        wishlistRepository.delete(item);
+        wishlistItemRepository.delete(item);
 
          return CommonResponse.builder()
                 .success(true)

@@ -8,6 +8,7 @@ import com.alten.shop.authentication.enums.LoginMode;
 public enum WishlistErrors {
 
 	ALREADY_IN_WISHLIST(HttpStatus.INTERNAL_SERVER_ERROR, "", "Ce produit est déjà dans votre liste d'envie"),
+	WISHLIST_NOT_FOUND(HttpStatus.INTERNAL_SERVER_ERROR, "", "Nous n'arrivons pas à trouver votre liste d'envie"),
 	NOT_FOUND_IN_WISHLIST(HttpStatus.INTERNAL_SERVER_ERROR, "", "Ce produit est introuvable dans votre liste d'envie");
 
 	public final HttpStatus status;

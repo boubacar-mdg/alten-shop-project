@@ -40,7 +40,7 @@ public class WishlistController {
                 return ResponseEntity.ok(wishlistResponses);
         }
 
-        @PostMapping(path = "/{productId}/add", produces = { MediaType.APPLICATION_JSON_VALUE })
+        @PostMapping(path = "/{productId}", produces = { MediaType.APPLICATION_JSON_VALUE })
         @Operation(summary = "Ajouter un produit à ma liste d'envie")
         @ApiResponses(value = { @ApiResponse(responseCode = "200", useReturnTypeSchema = true) })
         public ResponseEntity<CommonResponse> addProductToWishlist(@PathVariable Long productId) {
@@ -50,10 +50,10 @@ public class WishlistController {
                 return ResponseEntity.ok(commonResponse);
         }
         
-        @DeleteMapping(path = "/{productId}/delete", produces = { MediaType.APPLICATION_JSON_VALUE })
+        @DeleteMapping(path = "/{productId}", produces = { MediaType.APPLICATION_JSON_VALUE })
         @Operation(summary = "Supprimer le produit de ma liste d'envie")
         @ApiResponses(value = { @ApiResponse(responseCode = "200", useReturnTypeSchema = true) })
-        public ResponseEntity<CommonResponse> deleteProduct(@PathVariable Long productId) {
+        public ResponseEntity<CommonResponse> deleteFromWishlist(@PathVariable Long productId) {
 
                 CommonResponse commonResponse = wishlistService.deleteFromWishlist(productId);
 

@@ -1,6 +1,5 @@
 package com.alten.shop.wishlist.models.entities;
 
-import com.alten.shop.products.models.entities.Product;
 import com.alten.shop.users.models.entities.User;
 
 import jakarta.persistence.*;
@@ -20,8 +19,7 @@ public class Wishlist {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_WISHLIST")
     @SequenceGenerator(name = "SEQ_WISHLIST", sequenceName = "SEQ_WISHLIST", allocationSize = 20, initialValue = 10)
     private Long id;
-    @ManyToOne
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
-    @ManyToOne
-    private Product product;
 }

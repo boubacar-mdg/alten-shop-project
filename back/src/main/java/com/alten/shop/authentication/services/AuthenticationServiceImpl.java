@@ -15,6 +15,8 @@ import com.alten.shop.users.models.dtos.UserResponse;
 import com.alten.shop.users.models.entities.User;
 import com.alten.shop.users.repositories.UserRepository;
 import com.alten.shop.utils.Tools;
+import com.alten.shop.wishlist.models.entities.Wishlist;
+import com.alten.shop.wishlist.repositories.WishlistRepository;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -45,6 +47,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
   private final AuthenticationManager authenticationManager;
   private final ModelMapper modelMapper;
   private final CartRepository cartRepository;
+  private final WishlistRepository wishlistRepository;
 
   @Override
   public AuthenticationResponse register(RegisterRequest registerRequest) {
@@ -82,8 +85,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     cart.setUser(savedUser);
     cartRepository.save(cart);
     
+    Wishlist wishlist = new Wishlist();
+    wishlist.setUser(savedUser);
+    wishlistRepository.save(wishlist);
     
-
     String jwtToken = jwtService.generateToken(user);
 
     revokeAllUserTokens(savedUser);

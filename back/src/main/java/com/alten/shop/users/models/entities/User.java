@@ -32,6 +32,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.alten.shop.cart.models.entities.Cart;
+import com.alten.shop.wishlist.models.entities.Wishlist;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Data
@@ -54,6 +55,9 @@ public class User implements UserDetails {
   
   @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   private Cart cart;
+
+  @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  private Wishlist wishlist;
 
   @Override
   public String getPassword() {
