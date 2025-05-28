@@ -1,4 +1,5 @@
 import { Component, OnInit, inject, signal } from "@angular/core";
+import { CartService } from "app/cart/data-access/cart.service";
 import { Product } from "app/products/data-access/product.model";
 import { ProductsService } from "app/products/data-access/products.service";
 import { ProductFormComponent } from "app/products/ui/product-form/product-form.component";
@@ -33,6 +34,7 @@ const emptyProduct: Product = {
 })
 export class ProductListComponent implements OnInit {
   private readonly productsService = inject(ProductsService);
+  private readonly cartService = inject(CartService);
 
   public readonly products = this.productsService.products;
 
@@ -67,6 +69,10 @@ export class ProductListComponent implements OnInit {
       this.productsService.update(product).subscribe();
     }
     this.closeDialog();
+  }
+
+  public onAddToCart(product: Product) {
+    this.cartService.addItem(product).subscribe();
   }
 
   public onCancel() {

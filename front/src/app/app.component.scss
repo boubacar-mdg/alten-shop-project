@@ -2,3 +2,27 @@
     overflow: hidden;
     height: 100%;
 }
+
+.cart{
+    padding: 10px;
+    border-radius:20px;
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.cart:hover {
+    background-color: #dfdfdf;
+    transition: 0.5s;
+}
+
+.cart-badge{
+    background-color: rgb(93, 127, 191);
+    padding: 2px 5px 2px 5px;
+    color:white;
+    font-size:11px;
+    position:absolute;
+    top:25px;
+    right:6px;
+    border-radius:50px;
+}
+
