@@ -6,6 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,8 +41,8 @@ public class CartController {
                 return ResponseEntity.ok(cartResponses);
         }
 
-        @PostMapping(path = "/{productId}/add", produces = { MediaType.APPLICATION_JSON_VALUE })
-        @Operation(summary = "Ajouter le produit au panier")
+        @PostMapping(path = "/{productId}", produces = { MediaType.APPLICATION_JSON_VALUE })
+        @Operation(summary = "Ajouter le produit au panier ou ajouter une unité")
         @ApiResponses(value = { @ApiResponse(responseCode = "200", useReturnTypeSchema = true) })
         public ResponseEntity<CommonResponse> addProductToCart(@PathVariable Long productId) {
 
@@ -50,7 +51,17 @@ public class CartController {
                 return ResponseEntity.ok(commonResponse);
         }
 
-        @DeleteMapping(path = "/{productId}/delete", produces = { MediaType.APPLICATION_JSON_VALUE })
+        @PatchMapping(path = "/{productId}/remove-one", produces = { MediaType.APPLICATION_JSON_VALUE })
+        @Operation(summary = "Supprimer une unité du produit dans le panier")
+        @ApiResponses(value = { @ApiResponse(responseCode = "200", useReturnTypeSchema = true) })
+        public ResponseEntity<CommonResponse> removeOneQuantity(@PathVariable Long productId) {
+
+                CommonResponse commonResponse = cartService.removeOneFromQuantity(productId);
+
+                return ResponseEntity.ok(commonResponse);
+        }
+
+        @DeleteMapping(path = "/{productId}", produces = { MediaType.APPLICATION_JSON_VALUE })
         @Operation(summary = "Supprimer le produit du panier")
         @ApiResponses(value = { @ApiResponse(responseCode = "200", useReturnTypeSchema = true) })
         public ResponseEntity<CommonResponse> deleteProduct(@PathVariable Long productId) {

@@ -92,6 +92,50 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
+    public CommonResponse removeOneFromQuantity(Long productId) {
+        User user = userService.getAuthenticatedUser();
+        Cart cart = cartRepository.findByUser(user)
+                .orElseThrow(() -> new CartException(CartErrors.CART_NOT_FOUND));
+
+        Product product = productService.getProductById(productId);
+
+        if (product.getInventoryStatus().equals(InventoryStatus.OUTOFSTOCK))
+            throw new ProductException(ProductErrors.OUTOFSTOCK);
+
+        Optional<CartItem> existingItem = cartItemRepository.findByCartAndProduct(cart, product);
+
+        if (existingItem.isPresent()) {
+            CartItem item = existingItem.get();
+
+            if(item.getQuantity() == 1) {
+                return deleteCartItem(productId);
+            }
+            
+            int newQuantity = item.getQuantity() - 1;
+
+            if (newQuantity > product.getQuantity())
+                throw new ProductException(ProductErrors.UNSUFFICIENT_STOCK);
+
+            item.setQuantity(newQuantity);
+            cartItemRepository.save(item);
+        } else {
+            CartItem newItem = CartItem.builder()
+                    .cart(cart)
+                    .product(product)
+                    .quantity(1)
+                    .build();
+            cartItemRepository.save(newItem);
+        }
+
+        cartRepository.save(cart);
+
+        return CommonResponse.builder()
+                .success(true)
+                .build();
+
+    }
+
+    @Override
     public CommonResponse deleteCartItem(Long productId) {
         User user = userService.getAuthenticatedUser();
         Cart cart = cartRepository.findByUser(user)

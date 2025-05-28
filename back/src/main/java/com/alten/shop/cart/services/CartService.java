@@ -8,5 +8,6 @@ import com.alten.shop.commons.dtos.CommonResponse;
 public interface CartService{
     public List<CartResponse> getCartItems();
     public CommonResponse addCartItem(Long productId);
+    public CommonResponse removeOneFromQuantity(Long productId);
     public CommonResponse deleteCartItem(Long productId);
 }
